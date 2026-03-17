@@ -45,13 +45,12 @@ Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot) {
 }
 
 
-Dico* fichier_vers_dico(char *filename, int nb_mots, int min, int flags) {
+Dico* fichier_vers_dico(char *filename, int *taille) {
 
     FILE *fichier = fopen(filename, "r");
     if(!fichier) return NULL;
 
     int capacite = 100;
-    int taille = 0;
     Dico *dico = (Dico*)malloc(capacite * sizeof(Dico));
 
     char mot[256];
@@ -62,12 +61,7 @@ Dico* fichier_vers_dico(char *filename, int nb_mots, int min, int flags) {
         if(strchr(white, c)) {
             if(i > 0) {
                 mot[i] = '\0';
-
-                // Vérifier la longueur
-                int longueur = strlen(mot);
-                if(longueur >= min) {
-                    dico = ajouter_mot(dico, &taille, &capacite, mot);
-                }
+                dico = ajouter_mot(dico, taille, &capacite, mot);
                 i = 0;
             }
         } else {
@@ -79,10 +73,7 @@ Dico* fichier_vers_dico(char *filename, int nb_mots, int min, int flags) {
     // Dernier mot
     if(i > 0) {
         mot[i] = '\0';
-        int longueur = strlen(mot);
-        if(longueur >= min) {
-            dico = ajouter_mot(dico, &taille, &capacite, mot);
-        }
+        dico = ajouter_mot(dico, taille, &capacite, mot);
     }
 
     fclose(fichier);
@@ -95,4 +86,12 @@ void afficher_dico(Dico *dico, int taille) {
     for (int i = 0; i < taille; i++) {
         printf("%s : %d\n", dico[i].mot, dico[i].frequence);
     }
+}
+
+
+void free_dico(Dico *dico) {
+    for (int i = 0; dico[i].mot != NULL; i++) {
+        free(dico[i].mot);
+    }
+    free(dico);
 }

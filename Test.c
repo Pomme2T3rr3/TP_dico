@@ -18,3 +18,13 @@ int test(void) {
 
     return 1;
 }
+
+int main(void) {
+    if (test()) {
+        printf("Tous les tests ont passé!\n");
+        return 0;
+    } else {
+        printf("Certains tests ont échoué!\n");
+        return 1;
+    }
+}
