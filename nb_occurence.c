@@ -31,7 +31,6 @@ Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot) {
         if(*taille >= *capacite) {
             // Agrandir le tableau
             *capacite *= 2;
-            size_t old_size = (*taille) * sizeof(Dico);
             size_t new_size = (*capacite) * sizeof(Dico);
             dico = (Dico*)realloc(dico, new_size);
         }
@@ -89,4 +88,11 @@ Dico* fichier_vers_dico(char *filename, int nb_mots, int min, int flags) {
     fclose(fichier);
 
     return dico;
+}
+
+
+void afficher_dico(Dico *dico, int taille) {
+    for (int i = 0; i < taille; i++) {
+        printf("%s : %d\n", dico[i].mot, dico[i].frequence);
+    }
 }

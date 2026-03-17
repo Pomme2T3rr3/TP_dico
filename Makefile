@@ -1,12 +1,12 @@
 CC = clang
 CFLAGS = -Wall -std=c17
 
-SRC = cpt_occurence.c
+SRC = nb_occurence.c
 OBJ = $(SRC:.c = .o)
 
 all : clm
 
-Jeu: $(OBJ)
+clm: $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $(OBJ)
 
 
@@ -16,3 +16,6 @@ Jeu: $(OBJ)
 
 clean:
 	rm -f *.o Jeu
+
+test: Test.c nb_occurence.o
+	$(CC) $(CFLAGS) -o test Test.c nb_occurence.o && ./test_runner

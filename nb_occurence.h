@@ -13,6 +13,7 @@ typedef struct dico_mot{
 char Maj_vers_Min(char c);
 Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot);
 Dico* fichier_vers_dico(char *filename, int nb_mots, int min, int flags);
+void afficher_dico(Dico *dico, int taille);
 
 
 #endif
