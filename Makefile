@@ -17,5 +17,5 @@ clm: $(OBJ)
 clean:
 	rm -f *.o clm test_runner test
 
-test: Test.c nb_occurence.o tri_lexico.o tri_nb_occurence.o mot_suivant.o mot_precedent.o
-	$(CC) $(CFLAGS) -o test_runner Test.c nb_occurence.o tri_lexico.o tri_nb_occurence.o mot_suivant.o mot_precedent.o && ./test_runner
+test: Test.c nb_occurence.o tri_lexico.o tri_nb_occurence.o mot_suivant.o mot_precedent.o expression.o
+	$(CC) $(CFLAGS) -o test_runner Test.c nb_occurence.o tri_lexico.o tri_nb_occurence.o mot_suivant.o mot_precedent.o expression.o && ./test_runner
