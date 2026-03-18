@@ -3,6 +3,7 @@
 #include "tri_nb_occurence.h"
 #include "mot_suivant.h"
 #include "mot_precedent.h"
+#include "expression.h"
 
 
 int test_ajouter_mot(char *mot) {
@@ -130,12 +131,34 @@ int test_mot_precedent(void) {
     return 0;
 }
 
+int test_tri_expression(void) {
+    const char *fichier = "test_tri_expression.txt";
+    FILE *f = fopen(fichier, "w");
+    int taille = 0;
+
+    if (f == NULL) {
+        return 0;
+    }
+
+    fputs("Jean Valjean parle. Jean dort. Jean Valjean marche.", f);
+    fclose(f);
+
+    if (tri_expression(fichier, 2, &taille) != 0) {
+        remove(fichier);
+        return 0;
+    }
+
+    remove(fichier);
+    return 1;
+}
+
 int test(void) {
     if (!test_ajouter_mot("mot")) return 0;
     if (!test_tri_lexico()) return 0;
     if (!test_insertion_sort_dico()) return 0;
     if (!test_mot_suivant()) return 0;
     if (!test_mot_precedent()) return 0;
+    if (!test_tri_expression()) return 0;
 
     return 1;
 }

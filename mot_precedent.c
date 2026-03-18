@@ -20,7 +20,7 @@ static void mot_en_minuscule(const char *src, char *dst, size_t taille_dst) {
     dst[i] = '\0';
 }
 
-static int lire_mot(FILE *fichier, char *mot, size_t taille_mot) {
+int lire_mot(FILE *fichier, char *mot, size_t taille_mot) {
     int c;
     size_t i = 0;
 

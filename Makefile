@@ -1,7 +1,7 @@
 CC = clang
 CFLAGS = -Wall -std=c17
 
-SRC = nb_occurence.c clm.c tri_lexico.c tri_nb_occurence.c mot_suivant.c mot_precedent.c
+SRC = nb_occurence.c clm.c tri_lexico.c tri_nb_occurence.c mot_suivant.c mot_precedent.c expression.c
 OBJ = $(SRC:.c=.o)
 
 all : clm
