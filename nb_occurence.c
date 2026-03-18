@@ -2,6 +2,9 @@
 
 
 int chercher_mot(Dico *dico, int taille, char *mot) {
+    if(dico == NULL || taille == 0) {
+        return -1;
+    }
     for(int i = 0; i < taille; i++) {
         if(strcmp(dico[i].mot, mot) == 0) {
             return i;  // Retourne l'index
@@ -21,6 +24,20 @@ char Maj_vers_Min(char c) {
 
 // Ajouter ou incrémenter le nombre d'occurence d'un mot
 Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot) {
+    if (capacite == NULL || taille == NULL || mot == NULL) {
+        return dico;
+    }
+
+    if (dico == NULL) {
+        if (*capacite <= 0) {
+            *capacite = 10;
+        }
+        dico = malloc((size_t)(*capacite) * sizeof(Dico));
+        if (dico == NULL) {
+            return NULL;
+        }
+    }
+
     int index = chercher_mot(dico, *taille, mot);
 
     if(index != -1) {
@@ -30,12 +47,23 @@ Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot) {
         // Nouveau mot
         if(*taille >= *capacite) {
             // Agrandir le tableau
-            *capacite *= 2;
+            if(*capacite == 0) {
+                *capacite = 10;
+            } else {
+                *capacite *= 2;
+            }
             size_t new_size = (*capacite) * sizeof(Dico);
-            dico = (Dico*)realloc(dico, new_size);
+            Dico *tmp = realloc(dico, new_size);
+            if (tmp == NULL) {
+                return NULL;
+            }
+            dico = tmp;
         }
 
         dico[*taille].mot = (char*)malloc(strlen(mot) + 1);
+        if (dico[*taille].mot == NULL) {
+            return NULL;
+        }
         strcpy(dico[*taille].mot, mot);
         dico[*taille].frequence = 1;
         (*taille)++;
@@ -46,6 +74,11 @@ Dico* ajouter_mot(Dico *dico, int *taille, int *capacite, char *mot) {
 
 
 Dico* fichier_vers_dico(char *filename, int *taille) {
+    if (taille == NULL) {
+        return NULL;
+    }
+
+    *taille = 0;
 
     FILE *fichier = fopen(filename, "r");
     if(!fichier) return NULL;
@@ -82,15 +115,19 @@ Dico* fichier_vers_dico(char *filename, int *taille) {
 }
 
 
-void afficher_dico(Dico *dico, int taille) {
-    for (int i = 0; i < taille; i++) {
+void afficher_dico(Dico *dico, int taille, int nb_affiche) {
+    for (int i = 0; i < nb_affiche && i < taille; i++) {
         printf("%s : %d\n", dico[i].mot, dico[i].frequence);
     }
 }
 
 
-void free_dico(Dico *dico) {
-    for (int i = 0; dico[i].mot != NULL; i++) {
+void free_dico(Dico *dico, int taille) {
+    if (dico == NULL) {
+        return;
+    }
+
+    for (int i = 0; i < taille; i++) {
         free(dico[i].mot);
     }
     free(dico);
